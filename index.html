@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bear Gladiators Arena</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <div class="start-screen">
+        <h1>Bear Gladiators Arena</h1>
+        <form action="">
+            <input class="player-name" type="text" placeholder="Name" required>
+            <button type="submit">Start Game</button>
+        </form>
+    </div>
+
+
+    <div class="game-screen" style="display: none">
+
+        <div class="enemy">
+            <p class="name">Enemy Name</p>
+            <div class="max-health">
+                <div class="health" style="width: 100%;"></div>
+                <div class="healthStr">100/100</div>
+            </div>
+            <div class="portrait">
+                <img src="" alt="">
+            </div>
+        </div>
+
+        <div class="game-options" style="display: none">
+            <button class="attack">Attack</button>
+            <button class="run">Run</button>
+        </div>
+
+        <div class="alert-screen" style="display: none">
+            <p class="text">Bear will kick ur ass...</p>
+            <button class="alert-button">OK</button>
+        </div>
+
+        <div class="player">
+            <p class="name">Your Name</p>
+            <div class="max-health">
+                <div class="health" style="width: 100%;"></div>
+                <div class="healthStr">100/100</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="shop-screen" style="display: none">
+        <h1>Shop</h1>
+        <div class="shop-small">
+            <div class="player-stats">
+                <div class="player-name">James</div>
+                <div class="player-health">Health: <span>100/100</span></div>
+                <div class="player-strength">Strength: <span>1</span></div>
+                <div class="player-accuracy">Accuracy: <span>1</span></div>
+                <div class="player-crit">Crit: <span>1</span></div>
+                <div class="player-gold"><i class="fa-solid fa-coins" style="margin-right: 5px"></i><span>3</span></div>
+            </div>
+            <div class="shop">
+                <div>
+                    <div class="cost"><i class="fa-solid fa-coins" style="margin-right: 5px"></i><span>10</span></div>
+                    <p>Heal 15 HP</p>
+                    <button class="shop-upgrade-health"><i class="fa-solid fa-heart"></i></button>
+                </div>
+                <div>
+                    <div class="cost"><i class="fa-solid fa-coins" style="margin-right: 5px"></i><span>10</span></div>
+                    <p>Upgrade Strength</p>
+                    <button class="shop-upgrade-strength"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div>
+                    <div class="cost"><i class="fa-solid fa-coins" style="margin-right: 5px"></i><span>15</span></div>
+                    <p>Upgrade Accuracy</p>
+                    <button class="shop-upgrade-accuracy"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div>
+                    <div class="cost"><i class="fa-solid fa-coins" style="margin-right: 5px"></i><span>5</span></div>
+                    <p>Upgrade Crit</p>
+                    <button class="shop-upgrade-crit"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div>
+                    <button class="next-battle">Next Battle <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
