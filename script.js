@@ -127,6 +127,7 @@ function customAlert(trueConfirm){
 async function startGame(){
     document.querySelector(".player .name").textContent = player.name
     let run = false
+    let dead = false
     for(let i = 0; i < enemies.length; i++){
         const currentEnemy = enemies[i]
         enemyNameEl.textContent = currentEnemy.name
@@ -164,6 +165,7 @@ async function startGame(){
             break
         }else if(player.hp === 0){
             await alertScreen("You died! Game Over...")
+            dead = true
             break
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-5.jpg`
@@ -178,7 +180,7 @@ async function startGame(){
             }
         }
     }
-    if(!run){
+    if(!run && !dead){
         await alertScreen("You win!")
     }
     gameScreen.style.display = "none"
