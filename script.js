@@ -52,9 +52,9 @@ function newGame(){
     enemies = [
         {
             name: "baby-bear",
-            maxHp: 50,
-            hp: 50,
-            attack: 10,
+            maxHp: 60,
+            hp: 60,
+            attack: 20,
             accuracy: 5,
             gold: 35,
             link: "./assets/pics/baby-bear-1.jpg",
@@ -64,15 +64,15 @@ function newGame(){
         },
         {
             name: "mama-bear",
-            maxHp: 70,
-            hp: 70,
-            attack: 15,
+            maxHp: 120,
+            hp: 120,
+            attack: 30,
             accuracy: 10,
             gold: 65,
             link: "./assets/pics/mama-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
-            crit: 20
+            crit: 25
         },
         {
             name: "papa-bear",
