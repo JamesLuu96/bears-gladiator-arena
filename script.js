@@ -52,8 +52,8 @@ function newGame(){
     enemies = [
         {
             name: "baby-bear",
-            maxHp: 60,
-            hp: 60,
+            maxHp: 50,
+            hp: 50,
             attack: 20,
             accuracy: 5,
             gold: 35,
@@ -292,7 +292,7 @@ function checkGold(amount){
 shopUpgradeHealth.addEventListener("click", (e)=>{
     e.preventDefault()
     if(checkGold(10) && player.hp < player.maxHp){
-        player.hp = Math.min(player.maxHp, player.hp + 15)
+        player.hp = Math.min(player.maxHp, player.hp + 40)
         player.gold -= 10
         updatePlayerEl()
     }
@@ -309,9 +309,9 @@ shopUpgradeStrength.addEventListener("click", (e)=>{
 
 shopUpgradeAccuracy.addEventListener("click", (e)=>{
     e.preventDefault()
-    if(checkGold(15)){
+    if(checkGold(5)){
         player.accuracy += 1
-        player.gold -= 15
+        player.gold -= 5
         updatePlayerEl()
     }
 })
