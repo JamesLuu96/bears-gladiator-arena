@@ -67,24 +67,24 @@ function newGame(){
             maxHp: 120,
             hp: 120,
             attack: 30,
-            accuracy: 10,
+            accuracy: 5,
             gold: 65,
             link: "./assets/pics/mama-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
-            crit: 25
+            crit: 15
         },
         {
             name: "papa-bear",
             maxHp: 350,
             hp: 350,
             attack: 40,
-            accuracy: 3,
+            accuracy: 5,
             gold: 100,
             link: "./assets/pics/papa-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
-            crit: 40
+            crit: 25
         }
     ]
 }
