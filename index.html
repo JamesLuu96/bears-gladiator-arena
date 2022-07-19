@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="manifest" href="manifest.json">
+    <link rel="canonical" href="https://jamesluu96.github.io/bears-gladiator-arena/">
+    <link rel="manifest" href="/bears-gladiator-arena/manifest.json">
     <link rel="apple-touch-icon" href="./icons/apple-icon-180.png">
 </head>
 <body>
@@ -105,7 +106,7 @@
 
     <script>
         if('serviceWorker' in navigator){
-            navigator.serviceWorker.register('/service_worker.js')
+            navigator.serviceWorker.register('/bears-gladiator-arena/service_worker.js', {scope: 'bears-gladiator-arena/'})
         }
     </script>
     <script src="script.js"></script>
