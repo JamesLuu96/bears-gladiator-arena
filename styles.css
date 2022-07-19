@@ -8,6 +8,20 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: 'Ibarra Real Nova', serif;
+}
+
+button{
+    font-family: 'Ibarra Real Nova', serif;
+    padding: 5px;
+    background-color: lightblue;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input{
+    padding: 5px;
+    font-family: 'Ibarra Real Nova', serif;
 }
 
 .game-screen{
@@ -36,11 +50,20 @@ body{
 }
 
 .portrait{
-    height: 100%
+    height: 100%;
+    width: 100%;
 }
 
 .portrait img{
-    height: 100%
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.alert-screen{
+    padding: 1em;
+    background-color: rgba(112, 112, 112, 0.75);
+    border-radius: 15px;
 }
 
 .health{
@@ -77,6 +100,7 @@ body{
     display: flex;
     width: 100%;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .shop > *{
@@ -87,4 +111,10 @@ body{
 
 .shop button{
     padding: 5px;
+}
+
+@media screen and (max-width: 767px) {
+    .shop-small{
+        font-size: 1em;
+    }
 }
