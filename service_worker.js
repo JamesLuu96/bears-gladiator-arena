@@ -34,7 +34,7 @@ self.addEventListener("install", e=>{
     console.log("installed")
     e.waitUntil(
         caches.open("static").then(cache => {
-            return cache.addAll(["./index.html", "./script.js", "./bear-head.jpg", "./styles.css", "./assets", "./icons"])
+            return cache.addAll(URLS)
         })
     )
 })
