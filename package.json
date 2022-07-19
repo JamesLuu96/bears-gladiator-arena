@@ -1,0 +1,20 @@
+{
+  "name": "bears-gladiator-arena",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesLuu96/bears-gladiator-arena.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesLuu96/bears-gladiator-arena/issues"
+  },
+  "homepage": "https://github.com/JamesLuu96/bears-gladiator-arena#readme"
+}
