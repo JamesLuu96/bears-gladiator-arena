@@ -126,6 +126,24 @@ input{
     padding: 5px;
 }
 
+.hit-record {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hit-record > *{
+    margin: 3px;
+}
+
+.crit-record{
+    color: red
+}
+
+.miss-record{
+    color: rgb(144, 143, 143)
+}
+
 @media screen and (max-width: 767px) {
     .shop-small{
         font-size: 1em;

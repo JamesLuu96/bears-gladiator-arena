@@ -15,6 +15,9 @@ const alertTextEl = document.querySelector(".alert-screen .text")
 const alertButtonEl = document.querySelector(".alert-screen .alert-button")
 const gameOptionsEl = document.querySelector(".game-options")
 const playerShieldEl = document.querySelector(".shield")
+const playerHitRecordEl = document.querySelector(".player .hit-record")
+const enemyHitRecordEl = document.querySelector(".enemy .hit-record")
+
 
 function getHpStr(target){
     if(target.shield){
@@ -60,7 +63,8 @@ function newGame(){
         hpEl: playerHealthEl,
         maxHpEl: playerMaxHealthEl,
         crit: 10,
-        shield: 0
+        shield: 0,
+        hitRecord: playerHitRecordEl
     }
 
     enemies = [
@@ -74,7 +78,8 @@ function newGame(){
             link: "./assets/pics/baby-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
-            crit: 10
+            crit: 10,
+            hitRecord: enemyHitRecordEl
         },
         {
             name: "mama-bear",
@@ -86,7 +91,8 @@ function newGame(){
             link: "./assets/pics/mama-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
-            crit: 15
+            crit: 15,
+            hitRecord: enemyHitRecordEl
         },
         {
             name: "papa-bear",
@@ -98,7 +104,8 @@ function newGame(){
             link: "./assets/pics/papa-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
-            crit: 25
+            crit: 25,
+            hitRecord: enemyHitRecordEl
         }
     ]
 }
@@ -150,6 +157,8 @@ async function startGame(){
         updateHpEl(player)
         startScreen.style.display = "none"
         gameScreen.style.display = "flex"
+        playerHitRecordEl.innerHTML = ""
+        enemyHitRecordEl.innerHTML = ""
         let myTurn = true
         await alertScreen(`A wild ${currentEnemy.name} has appeared!`)
         while(currentEnemy.hp > 0 && player.hp > 0){
@@ -197,6 +206,7 @@ async function startGame(){
         }
     }
     if(!run && !dead){
+        alertButtonEl.style.display = "none"
         await alertScreen("You win!")
     }
     gameScreen.style.display = "none"
@@ -221,6 +231,9 @@ async function attack(attacker, target, currentEnemy){
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.jpg`
         }
+        const missEl = document.createElement("i")
+        missEl.className = "fa-solid fa-x miss-record"
+        attacker.hitRecord.append(missEl)
         await alertScreen(`${attacker.name} missed!`)
         enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.jpg`
         return
@@ -239,6 +252,9 @@ async function attack(attacker, target, currentEnemy){
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.jpg`
         }
+        const critEl = document.createElement("i")
+        critEl.className = "fa-solid fa-certificate crit-record"
+        attacker.hitRecord.append(critEl)
         await alertScreen(`
         ${attacker.name} hit ${target.name} with a critical strike of ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
@@ -255,6 +271,9 @@ async function attack(attacker, target, currentEnemy){
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.jpg`
         }
+        const hitEl = document.createElement("i")
+        hitEl.className = "fa-solid fa-o hit-record"
+        attacker.hitRecord.append(hitEl)
         await alertScreen(`
         ${attacker.name} hit ${target.name} for ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
@@ -274,9 +293,13 @@ const shopPlayerGoldEl = document.querySelector(".player-gold span")
 function updatePlayerEl(){
     if(player.accuracy === 10){
         shopUpgradeAccuracy.style.display = 'none'
+    }else{
+        shopUpgradeAccuracy.style.display = 'block'
     }
     if(player.crit === 100){
         shopUpgradeCrit.style.display = 'none'
+    }else{
+        shopUpgradeCrit.style.display = 'block'
     }
     shopPlayerNameEl.textContent = player.name
     shopPlayerHealthEl.textContent = `${player.hp}/${player.maxHp}`
