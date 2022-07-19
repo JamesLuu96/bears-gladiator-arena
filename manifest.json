@@ -1,7 +1,6 @@
 {
     "name": "Bear Gladiators Arena",
     "short_name": "Bear Gladiators",
-    "start_url": "/?home=true",
     "icons": [
         {
             "src": "/bears-gladiator-arena/icons/manifest-icon-192.maskable.png",
