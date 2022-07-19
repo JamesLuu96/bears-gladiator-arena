@@ -1,0 +1,50 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Ibarra Real Nova', serif;
+}
+
+.player-hp{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+.hp-container{
+    width: 80vw;
+    height: 25px;
+    border: 2px solid black;
+    display: flex;
+}
+
+.player-hp-str{
+    position: absolute;
+}
+
+.bar{
+    height: 100%;
+    flex-basis: 100%;
+}
+
+.current-hp{
+    background-color: green;
+}
+
+.current-shield{
+    background-color: grey;
+}
+
+.max-hp{
+    background-color: red;
+    flex-basis: 0;
+}

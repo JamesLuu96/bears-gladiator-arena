@@ -14,14 +14,27 @@ const alertEl = document.querySelector(".alert-screen")
 const alertTextEl = document.querySelector(".alert-screen .text")
 const alertButtonEl = document.querySelector(".alert-screen .alert-button")
 const gameOptionsEl = document.querySelector(".game-options")
+const playerShieldEl = document.querySelector(".shield")
 
 function getHpStr(target){
+    if(target.shield){
+        return `${target.hp}/${target.maxHp}(${target.shield})`
+    }
     return `${target.hp}/${target.maxHp}`
 }
 
 function updateHpEl(target){
     target.maxHpEl.textContent = getHpStr(target)
-    target.hpEl.style.width = `${(target.hp / target.maxHp) * 100}%`
+    if(target.shield){
+        target.hpEl.style.width = `${(target.hp / (target.maxHp + target.shield)) * 100}%`
+    }else{
+        target.hpEl.style.width = `${(target.hp / target.maxHp) * 100}%`
+    }
+    playerShieldEl.style.width = `${(player.shield / (player.maxHp + player.shield)) * 100}%`
+    if(target.shield){
+        console.log('HP %: ' + `${(target.hp / (target.maxHp + target.shield)) * 100}%`)
+        console.log('SHIELD %: ' + `${(player.shield / (player.maxHp + player.shield)) * 100}%`)
+    }
 }
 
 
@@ -41,12 +54,13 @@ function newGame(){
         hp: 200,
         attack: 10,
         accuracy: 3,
-        gold: 20,
+        gold: 0,
         name: "",
         defense: 3,
         hpEl: playerHealthEl,
         maxHpEl: playerMaxHealthEl,
-        crit: 5
+        crit: 10,
+        shield: 0
     }
 
     enemies = [
@@ -68,7 +82,7 @@ function newGame(){
             hp: 120,
             attack: 30,
             accuracy: 5,
-            gold: 65,
+            gold: 35,
             link: "./assets/pics/mama-bear-1.jpg",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
@@ -169,11 +183,13 @@ async function startGame(){
             break
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-5.jpg`
+            const gold = Math.max(currentEnemy.gold + (80 - Math.floor((player.hp / player.maxHp) * 100)), currentEnemy.gold)
+            console.log(gold)
             await alertScreen(`
             You defeated ${currentEnemy.name}!
-            You gained ${currentEnemy.gold} gold!
+            You gained ${gold} gold!
             `)
-            player.gold += currentEnemy.gold
+            player.gold += gold
             if(i < enemies.length - 1){
                 await alertScreen('You entered the shop.')
                 await shop()
@@ -197,9 +213,9 @@ async function alertScreen(text){
 }
 
 async function attack(attacker, target, currentEnemy){
-    const miss = Math.floor(Math.random() * attacker.accuracy)
+    const miss = Math.floor(Math.random() * 100)
     let damage = 0
-    if(miss === 0){
+    if(miss > attacker.accuracy * 10){
         if(attacker.link){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-2.jpg`
         }else{
@@ -256,11 +272,17 @@ const shopPlayerCritEl = document.querySelector(".player-crit span")
 const shopPlayerGoldEl = document.querySelector(".player-gold span")
 
 function updatePlayerEl(){
+    if(player.accuracy === 10){
+        shopUpgradeAccuracy.style.display = 'none'
+    }
+    if(player.crit === 100){
+        shopUpgradeCrit.style.display = 'none'
+    }
     shopPlayerNameEl.textContent = player.name
     shopPlayerHealthEl.textContent = `${player.hp}/${player.maxHp}`
     shopPlayerStrengthEl.textContent = player.attack
-    shopPlayerAccuracyEl.textContent = player.accuracy
-    shopPlayerCritEl.textContent = player.crit
+    shopPlayerAccuracyEl.textContent = `${player.accuracy * 10}%`
+    shopPlayerCritEl.textContent = `${player.crit}%`
     shopPlayerGoldEl.textContent = player.gold
 }
 
@@ -319,7 +341,7 @@ shopUpgradeAccuracy.addEventListener("click", (e)=>{
 shopUpgradeCrit.addEventListener("click", (e)=>{
     e.preventDefault()
     if(checkGold(5)){
-        player.crit += 5
+        player.crit += 10
         player.gold -= 5
         updatePlayerEl()
     }

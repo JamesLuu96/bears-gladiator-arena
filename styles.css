@@ -66,16 +66,29 @@ input{
     border-radius: 15px;
 }
 
+.max-health{
+    text-align: left;
+}
+
 .health{
-    position: absolute;
+    position: relative;
+    display: inline-block;
     height: 25px;
     background-color: greenyellow;
 }
 
 .healthStr{
     position: absolute;
+    top: 0;
     width: 100%;
     text-align: center;
+}
+
+.shield{
+    position: absolute;
+    left: 100%;
+    background-color: gray;
+    height: 25px;
 }
 
 .portrait{
