@@ -9,6 +9,7 @@ body{
     align-items: center;
     height: 100vh;
     font-family: 'Ibarra Real Nova', serif;
+    touch-action: none;
 }
 
 button{
@@ -181,9 +182,6 @@ input{
     .shop-small{
         font-size: 1em;
         gap: 2em;
-    }
-    
-    .shop-screen{
     }
     
     .shop-screen h1 {
