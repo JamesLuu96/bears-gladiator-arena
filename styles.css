@@ -34,6 +34,8 @@ input{
     justify-content: space-between;
     padding: 2em;
     text-align: center;
+    background-image: url('./assets/pics/background.jpg');
+    background-size: 100% 100%;
 }
 
 .max-health{
@@ -106,6 +108,9 @@ input{
     gap: 5em;
     align-items: center;
     padding: 2em;
+    background-image: url('https://us.123rf.com/450wm/cougarsan/cougarsan1512/cougarsan151200180/49826131-a4-size-cafe-menu-blackboard-background-with-retro-ribbon-and-border.jpg?ver=6');
+    background-size: 100% 100%;
+    color: white;
 }
 
 .shop-small{
@@ -137,15 +142,70 @@ input{
 }
 
 .crit-record{
-    color: red
+    color: yellow
 }
 
 .miss-record{
-    color: rgb(144, 143, 143)
+    color: red
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 425px) {
     .shop-small{
         font-size: 1em;
+        gap: 2em;
+    }
+    
+    .shop-screen{
+        background-image: url('https://img.pikbest.com/backgrounds/20190826/coffee-menu-wood-grain-background_2856983.jpg!bw340');
+        background-size: contain;
+        color: white;
+        padding: 5px;
+        justify-content: flex-start;
+        gap: 10px;
+        height: fit-content;
+    }
+
+    .shop-screen h1 {
+        margin: 15px 0;
+    }
+
+    .click{
+        margin: 5px;
+        font-size: 1.5em;
+        padding: 5px;
+    }
+
+}
+
+@media screen and (max-width: 767px) and (min-width: 426px) {
+    .shop-small{
+        font-size: 1em;
+        gap: 2em;
+    }
+    
+    .shop-screen{
+    }
+    
+    .shop-screen h1 {
+        margin: 15px 0;
+    }
+
+    .shop{
+        background-image: url('https://us.123rf.com/450wm/cougarsan/cougarsan1512/cougarsan151200180/49826131-a4-size-cafe-menu-blackboard-background-with-retro-ribbon-and-border.jpg?ver=6');
+        background-size: contain;
+        color: white;
+        padding: 25px;
+    }
+
+    .next-battle{
+        margin: 0 auto;
+    }
+    
+    .player-stats{
+        background-image: url('https://img.pikbest.com/backgrounds/20190826/coffee-menu-wood-grain-background_2856983.jpg!bw340');
+        background-size: contain;
+        color: white;
+        padding: 20px;
+        height: fit-content;
     }
 }

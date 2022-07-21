@@ -75,7 +75,7 @@ function newGame(){
             attack: 20,
             accuracy: 5,
             gold: 35,
-            link: "./assets/pics/baby-bear-1.jpg",
+            link: "./assets/pics/baby-bear-1.png",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 10,
@@ -88,7 +88,7 @@ function newGame(){
             attack: 30,
             accuracy: 5,
             gold: 35,
-            link: "./assets/pics/mama-bear-1.jpg",
+            link: "./assets/pics/mama-bear-1.png",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 15,
@@ -101,7 +101,7 @@ function newGame(){
             attack: 40,
             accuracy: 5,
             gold: 100,
-            link: "./assets/pics/papa-bear-1.jpg",
+            link: "./assets/pics/papa-bear-1.png",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 25,
@@ -153,6 +153,7 @@ async function startGame(){
         const currentEnemy = enemies[i]
         enemyNameEl.textContent = currentEnemy.name
         enemyPortraitEl.src = currentEnemy.link
+        console.log({currentEnemy})
         updateHpEl(currentEnemy)
         updateHpEl(player)
         startScreen.style.display = "none"
@@ -183,7 +184,7 @@ async function startGame(){
             myTurn = !myTurn
         }
         if(run){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.png`
             await alertScreen("You ran!")
             break
         }else if(player.hp === 0){
@@ -191,7 +192,7 @@ async function startGame(){
             dead = true
             break
         }else{
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-5.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-5.png`
             const gold = Math.max(currentEnemy.gold + (80 - Math.floor((player.hp / player.maxHp) * 100)), currentEnemy.gold)
             console.log(gold)
             await alertScreen(`
@@ -227,15 +228,15 @@ async function attack(attacker, target, currentEnemy){
     let damage = 0
     if(miss > attacker.accuracy * 10){
         if(attacker.link){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-2.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-2.png`
         }else{
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.png`
         }
         const missEl = document.createElement("i")
         missEl.className = "fa-solid fa-x miss-record"
         attacker.hitRecord.append(missEl)
         await alertScreen(`${attacker.name} missed!`)
-        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.jpg`
+        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
         return
     }
     const crit = Math.floor(Math.random() * 100)
@@ -248,9 +249,9 @@ async function attack(attacker, target, currentEnemy){
         target.hp = Math.max(0, target.hp - damage)
         updateHpEl(target)
         if(attacker.link){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-4.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-4.png`
         }else{
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
         }
         const critEl = document.createElement("i")
         critEl.className = "fa-solid fa-certificate crit-record"
@@ -259,7 +260,7 @@ async function attack(attacker, target, currentEnemy){
         ${attacker.name} hit ${target.name} with a critical strike of ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
         `)
-        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.jpg`
+        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
     }else{
         const min = Math.max(attacker.attack - 2, 0)
         const max = attacker.attack + 5
@@ -267,9 +268,9 @@ async function attack(attacker, target, currentEnemy){
         target.hp = Math.max(0, target.hp - damage)
         updateHpEl(target)
         if(attacker.link){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-3.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-3.png`
         }else{
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.jpg`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
         }
         const hitEl = document.createElement("i")
         hitEl.className = "fa-solid fa-o hit-record"
@@ -278,7 +279,7 @@ async function attack(attacker, target, currentEnemy){
         ${attacker.name} hit ${target.name} for ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
         `)
-        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.jpg`
+        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
     }
 }
 

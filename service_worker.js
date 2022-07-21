@@ -1,6 +1,6 @@
 const GHPATH = '/bears-gladiator-arena'
 const APP_PREFIX = 'bga_'
-const VERSION = 'version_00'
+const VERSION = 'version_01'
 const URLS = [
     `${GHPATH}/`,
     `${GHPATH}/script.js`,
