@@ -50,6 +50,7 @@ formEl.addEventListener("submit", (e)=>{
 
 let player;
 let enemies;
+let run;
 
 function newGame(){
     player = {
@@ -64,7 +65,11 @@ function newGame(){
         maxHpEl: playerMaxHealthEl,
         crit: 10,
         shield: 0,
-        hitRecord: playerHitRecordEl
+        hitRecord: playerHitRecordEl,
+        moves: [
+            {element: attackEl, result: async function(){await attack(player, currentEnemy, currentEnemy)}}, 
+            {element: runEl, result: function(){run = true}}
+        ]
     }
 
     enemies = [
@@ -129,10 +134,11 @@ function thread () {
     return [promise, resolve, reject]
   }
   
-function customConfirm(trueConfirm, falseConfirm) {
+function customConfirm() {
     const [prompt, resolve] = thread()
-    trueConfirm.addEventListener("click", _ => resolve(true), {once: true})
-    falseConfirm.addEventListener("click", _ => resolve(false), {once: true})
+    for(let i = 0; i < arguments.length; i++){
+        arguments[i].element.addEventListener("click", _ => resolve({result: arguments[i].result}), {once: true})
+    }
     return prompt
 }
 
@@ -147,7 +153,7 @@ function customAlert(trueConfirm){
 
 async function startGame(){
     document.querySelector(".player .name").textContent = player.name
-    let run = false
+    run = false
     let dead = false
     for(let i = 0; i < enemies.length; i++){
         const currentEnemy = enemies[i]
@@ -165,15 +171,11 @@ async function startGame(){
         while(currentEnemy.hp > 0 && player.hp > 0){
             if(myTurn){
                 gameOptionsEl.style.display = "block"
-                await customConfirm(attackEl, runEl)
+                await customConfirm(...player.moves)
                     .then(async function(response){
+                        console.log({response})
                         gameOptionsEl.style.display = "none"
-                        if(response){
-                            await attack(player, currentEnemy, currentEnemy)
-                        }else{
-                            run = true
-                            return
-                        }
+                        await response.result()
                     })
             }else{
                 await attack(currentEnemy, player, currentEnemy)
