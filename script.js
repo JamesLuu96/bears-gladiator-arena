@@ -25,10 +25,7 @@ shieldGameEl.addEventListener('click', ()=>{
     shield++
 })
 
-setTimeout(()=>{
-    shieldGameEl.style.display = 'none'
-    console.log(shield)
-}, 1500)
+
 
 
 function getHpStr(target){
@@ -69,7 +66,7 @@ function newGame(){
         maxHp: 200,
         hp: 200,
         attack: 10,
-        accuracy: 3,
+        accuracy: 30,
         gold: 0,
         name: "",
         defense: 3,
@@ -88,29 +85,36 @@ function newGame(){
                 onCooldown: 0
             },
             {
-                element: "skill2", 
+                element: "shield", 
                 result: async function(currentEnemy){
-                    await attack(player, currentEnemy, currentEnemy)
+                    shield = 0
+                    shieldGameEl.style.display = 'block'
+                    await wait(1500)
+                    shieldGameEl.style.display = 'none'
+                    player.shield += shield * 5
+                    updateHpEl(player)
+                    const shieldEl = document.createElement("i")
+                    shieldEl.className = "fa-solid fa-shield-halved shield-record"
+                    player.hitRecord.append(shieldEl)
+                    await alertScreen(`You gained ${shield * 5} shield!`)
                 },
-                cooldown: 1,
-                onCooldown: 0
+                cooldown: 3,
+                onCooldown: 2
             },
             {
-                element: "skill3", 
+                element: "hail mary", 
                 result: async function(currentEnemy){
-                    await attack(player, currentEnemy, currentEnemy)
+                    const attackBuff = Math.floor(player.attack * 2)
+                    const accuracyDebuff = Math.floor(player.accuracy / 2)
+                    player.attack += attackBuff
+                    player.accuracy -= accuracyDebuff
+                    await attack(player, currentEnemy, currentEnemy, true)
+                    player.attack -= attackBuff
+                    player.accuracy += accuracyDebuff
                 },
                 cooldown: 2,
                 onCooldown: 0
             },
-            {
-                element: "run", 
-                result: function(){
-                    run = true
-                },
-                cooldown: 0,
-                onCooldown: 0
-            }
         ]
     }
 
@@ -120,7 +124,7 @@ function newGame(){
             maxHp: 50,
             hp: 50,
             attack: 20,
-            accuracy: 5,
+            accuracy: 50,
             gold: 35,
             link: "./assets/pics/baby-bear-1.png",
             hpEl: enemyHealthEl,
@@ -133,7 +137,7 @@ function newGame(){
             maxHp: 120,
             hp: 120,
             attack: 30,
-            accuracy: 5,
+            accuracy: 50,
             gold: 35,
             link: "./assets/pics/mama-bear-1.png",
             hpEl: enemyHealthEl,
@@ -146,7 +150,7 @@ function newGame(){
             maxHp: 350,
             hp: 350,
             attack: 40,
-            accuracy: 5,
+            accuracy: 50,
             gold: 100,
             link: "./assets/pics/papa-bear-1.png",
             hpEl: enemyHealthEl,
@@ -157,14 +161,12 @@ function newGame(){
     ]
 }
 
-function noNullAnswers(promptStr){
-    const answer = prompt(promptStr)
-    if(answer){
-        return answer
-    }else{
-        alert("That is not valid!")
-        return noNullAnswers(promptStr)
-    }
+function wait(ms){
+    return new Promise(resolve =>{
+        setTimeout(()=>{
+            resolve()
+        }, ms)
+    })
 }
 
 function thread () {
@@ -279,18 +281,25 @@ async function alertScreen(text){
     })
 }
 
-async function attack(attacker, target, currentEnemy){
+async function attack(attacker, target, currentEnemy, hailMary){
     const miss = Math.floor(Math.random() * 100)
     let damage = 0
-    if(miss > attacker.accuracy * 10){
+    console.log(attacker.accuracy)
+    if(miss > attacker.accuracy){
         if(attacker.link){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-2.png`
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.png`
         }
-        const missEl = document.createElement("i")
-        missEl.className = "fa-solid fa-x miss-record"
-        attacker.hitRecord.append(missEl)
+        if(hailMary){
+            const hailMaryEl = document.createElement("i")
+            hailMaryEl.className = "fa-solid fa-book-bible miss-record"
+            player.hitRecord.append(hailMaryEl)
+        }else{
+            const missEl = document.createElement("i")
+            missEl.className = "fa-solid fa-x miss-record"
+            attacker.hitRecord.append(missEl)
+        }
         await alertScreen(`${attacker.name} missed!`)
         enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
         return
@@ -302,16 +311,30 @@ async function attack(attacker, target, currentEnemy){
         const min = Math.max((attacker.attack * 2) - 2, 0)
         const max = (attacker.attack * 2) + 2
         damage = Math.floor(Math.random() * (max - min + 1)) + min
-        target.hp = Math.max(0, target.hp - damage)
+        if(target.shield){
+            target.shield -= damage
+            if(target.shield < 0){
+                target.hp = Math.max(0, target.hp + target.shield)
+                target.shield = 0
+            }
+        }else{
+            target.hp = Math.max(0, target.hp - damage)
+        }
         updateHpEl(target)
         if(attacker.link){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-4.png`
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
         }
-        const critEl = document.createElement("i")
-        critEl.className = "fa-solid fa-certificate crit-record"
-        attacker.hitRecord.append(critEl)
+        if(hailMary){
+            const hailMaryEl = document.createElement("i")
+            hailMaryEl.className = "fa-solid fa-book-bible crit-record"
+            player.hitRecord.append(hailMaryEl)
+        }else{
+            const critEl = document.createElement("i")
+            critEl.className = "fa-solid fa-certificate crit-record"
+            attacker.hitRecord.append(critEl)
+        }
         await alertScreen(`
         ${attacker.name} hit ${target.name} with a critical strike of ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
@@ -321,16 +344,32 @@ async function attack(attacker, target, currentEnemy){
         const min = Math.max(attacker.attack - 2, 0)
         const max = attacker.attack + 5
         damage = Math.floor(Math.random() * (max - min + 1)) + min
-        target.hp = Math.max(0, target.hp - damage)
+        if(target.shield){
+            console.log('shield is ' + target.shield)
+            target.shield -= damage
+            console.log('shield is now ' + target.shield)
+            if(target.shield < 0){
+                target.hp = Math.max(0, target.hp + target.shield)
+                target.shield = 0
+            }
+        }else{
+            target.hp = Math.max(0, target.hp - damage)
+        }
         updateHpEl(target)
         if(attacker.link){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-3.png`
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
         }
-        const hitEl = document.createElement("i")
-        hitEl.className = "fa-solid fa-o hit-record"
-        attacker.hitRecord.append(hitEl)
+        if(hailMary){
+            const hailMaryEl = document.createElement("i")
+            hailMaryEl.className = "fa-solid fa-book-bible"
+            player.hitRecord.append(hailMaryEl)
+        }else{
+            const hitEl = document.createElement("i")
+            hitEl.className = "fa-solid fa-o hit-record"
+            attacker.hitRecord.append(hitEl)
+        }
         await alertScreen(`
         ${attacker.name} hit ${target.name} for ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
@@ -348,7 +387,7 @@ const shopPlayerCritEl = document.querySelector(".player-crit span")
 const shopPlayerGoldEl = document.querySelector(".player-gold span")
 
 function updatePlayerEl(){
-    if(player.accuracy === 10){
+    if(player.accuracy === 100){
         shopUpgradeAccuracy.style.display = 'none'
     }else{
         shopUpgradeAccuracy.style.display = 'block'
@@ -361,7 +400,7 @@ function updatePlayerEl(){
     shopPlayerNameEl.textContent = player.name
     shopPlayerHealthEl.textContent = `${player.hp}/${player.maxHp}`
     shopPlayerStrengthEl.textContent = player.attack
-    shopPlayerAccuracyEl.textContent = `${player.accuracy * 10}%`
+    shopPlayerAccuracyEl.textContent = `${player.accuracy}%`
     shopPlayerCritEl.textContent = `${player.crit}%`
     shopPlayerGoldEl.textContent = player.gold
 }
@@ -412,7 +451,7 @@ shopUpgradeStrength.addEventListener("click", (e)=>{
 shopUpgradeAccuracy.addEventListener("click", (e)=>{
     e.preventDefault()
     if(checkGold(5)){
-        player.accuracy += 1
+        player.accuracy += 10
         player.gold -= 5
         updatePlayerEl()
     }

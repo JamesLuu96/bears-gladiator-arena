@@ -156,6 +156,11 @@ input{
     color: red
 }
 
+.shield-record{
+    color: blue
+}
+
+
 button[data-on-cooldown]{
     position: relative;
     background-color: rgb(101, 108, 110);
@@ -174,7 +179,24 @@ button[data-on-cooldown]:hover::before{
 
 .shield-game{
     position: fixed;
-    transform: scale(2);
+    z-index: 999;
+    bottom: 400px;
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.shield-game:active{
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
 
