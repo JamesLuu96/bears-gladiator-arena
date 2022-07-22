@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+    touch-action: manipulation;
 }
 
 body{
@@ -78,6 +79,7 @@ input{
     display: inline-block;
     height: 25px;
     background-color: greenyellow;
+    transition: width 1s;
 }
 
 .healthStr{
@@ -85,6 +87,10 @@ input{
     top: 0;
     width: 100%;
     text-align: center;
+}
+
+.game-options > *{
+    margin: 5px;
 }
 
 .shield{
@@ -149,6 +155,28 @@ input{
 .miss-record{
     color: red
 }
+
+button[data-on-cooldown]{
+    position: relative;
+    background-color: rgb(101, 108, 110);
+}
+
+button[data-on-cooldown]:hover::before{
+    position: absolute;
+    content: attr(data-on-cooldown);
+    bottom: 120%;
+    background-color: white;
+    border-radius: 10px;
+    padding: .3em;
+    width: 100px;
+    right: -100%;
+}
+
+.shield-game{
+    position: fixed;
+    transform: scale(2);
+}
+
 
 @media screen and (max-width: 425px) {
     .shop-small{

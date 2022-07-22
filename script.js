@@ -17,6 +17,18 @@ const gameOptionsEl = document.querySelector(".game-options")
 const playerShieldEl = document.querySelector(".shield")
 const playerHitRecordEl = document.querySelector(".player .hit-record")
 const enemyHitRecordEl = document.querySelector(".enemy .hit-record")
+const shieldGameEl = document.querySelector('.shield-game')
+
+let shield = 0
+
+shieldGameEl.addEventListener('click', ()=>{
+    shield++
+})
+
+setTimeout(()=>{
+    shieldGameEl.style.display = 'none'
+    console.log(shield)
+}, 1500)
 
 
 function getHpStr(target){
@@ -67,8 +79,38 @@ function newGame(){
         shield: 0,
         hitRecord: playerHitRecordEl,
         moves: [
-            {element: attackEl, result: async function(){await attack(player, currentEnemy, currentEnemy)}}, 
-            {element: runEl, result: function(){run = true}}
+            {
+                element: "attack", 
+                result: async function(currentEnemy){
+                    await attack(player, currentEnemy, currentEnemy)
+                },
+                cooldown: 0,
+                onCooldown: 0
+            },
+            {
+                element: "skill2", 
+                result: async function(currentEnemy){
+                    await attack(player, currentEnemy, currentEnemy)
+                },
+                cooldown: 1,
+                onCooldown: 0
+            },
+            {
+                element: "skill3", 
+                result: async function(currentEnemy){
+                    await attack(player, currentEnemy, currentEnemy)
+                },
+                cooldown: 2,
+                onCooldown: 0
+            },
+            {
+                element: "run", 
+                result: function(){
+                    run = true
+                },
+                cooldown: 0,
+                onCooldown: 0
+            }
         ]
     }
 
@@ -134,10 +176,25 @@ function thread () {
     return [promise, resolve, reject]
   }
   
-function customConfirm() {
+function playerMoveSelection(moves) {
     const [prompt, resolve] = thread()
-    for(let i = 0; i < arguments.length; i++){
-        arguments[i].element.addEventListener("click", _ => resolve({result: arguments[i].result}), {once: true})
+    gameOptionsEl.innerHTML = ""
+    for(let i = 0; i < moves.length; i++){
+        const currentMove = moves[i]
+        const buttonEl = document.createElement('button')
+        buttonEl.className = "click"
+        buttonEl.textContent = currentMove.element
+        if(currentMove.onCooldown > 0){
+            buttonEl.dataset.onCooldown = `Cooldown: ${currentMove.onCooldown}`
+            console.log(`${currentMove.element} is on cooldown for ${currentMove.onCooldown} turns!`)
+            currentMove.onCooldown -= 1
+        }else{
+            buttonEl.addEventListener("click", _ => {
+                currentMove.onCooldown += currentMove.cooldown
+                return resolve({result: currentMove.result})
+            }, {once: true})
+        }
+        gameOptionsEl.append(buttonEl)
     }
     return prompt
 }
@@ -147,9 +204,6 @@ function customAlert(trueConfirm){
     trueConfirm.addEventListener("click", _ => resolve(true), {once: true})
     return prompt
 }
-
-  
-  
 
 async function startGame(){
     document.querySelector(".player .name").textContent = player.name
@@ -171,11 +225,11 @@ async function startGame(){
         while(currentEnemy.hp > 0 && player.hp > 0){
             if(myTurn){
                 gameOptionsEl.style.display = "block"
-                await customConfirm(...player.moves)
+                await playerMoveSelection(player.moves)
                     .then(async function(response){
                         console.log({response})
                         gameOptionsEl.style.display = "none"
-                        await response.result()
+                        await response.result(currentEnemy)
                     })
             }else{
                 await attack(currentEnemy, player, currentEnemy)
