@@ -156,7 +156,8 @@ function newGame(){
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 25,
-            hitRecord: enemyHitRecordEl
+            hitRecord: enemyHitRecordEl,
+            rest: 1
         }
     ]
 }
@@ -300,7 +301,22 @@ async function attack(attacker, target, currentEnemy, hailMary){
             missEl.className = "fa-solid fa-x miss-record"
             attacker.hitRecord.append(missEl)
         }
-        await alertScreen(`${attacker.name} missed!`)
+        if(attacker.rest){
+            if(attacker.rest === 3){
+                attacker.rest = 1
+                const minHp = Math.floor(attacker.maxHp / 4)
+                const maxHp = Math.floor(attacker.maxHp / 3)
+                const healAmount = Math.floor(Math.random() * (maxHp - minHp + 1)) + minHp
+                attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmount)
+                updateHpEl(attacker)
+                await alertScreen(`${attacker.name} has fully rested, and healed ${healAmount} health!`)
+            }else{
+                attacker.rest++
+                await alertScreen(`${attacker.name} is resting!`)
+            }
+        }else{
+            await alertScreen(`${attacker.name} missed!`)
+        }
         enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
         return
     }
