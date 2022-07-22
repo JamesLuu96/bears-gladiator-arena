@@ -19,6 +19,9 @@ const playerHitRecordEl = document.querySelector(".player .hit-record")
 const enemyHitRecordEl = document.querySelector(".enemy .hit-record")
 const shieldGameEl = document.querySelector('.shield-game')
 
+let missInRow = 0
+let firstBoss = true
+
 let shield = 0
 
 shieldGameEl.addEventListener('click', ()=>{
@@ -212,6 +215,8 @@ async function startGame(){
     document.querySelector(".player .name").textContent = player.name
     run = false
     let dead = false
+    missInRow = 0
+    firstBoss = true
     for(let i = 0; i < enemies.length; i++){
         const currentEnemy = enemies[i]
         enemyNameEl.textContent = currentEnemy.name
@@ -283,6 +288,7 @@ async function alertScreen(text){
 }
 
 async function attack(attacker, target, currentEnemy, hailMary){
+    console.log(`Accuracy: ${attacker.accuracy}`)
     const miss = Math.floor(Math.random() * 100)
     let damage = 0
     console.log(attacker.accuracy)
@@ -291,6 +297,10 @@ async function attack(attacker, target, currentEnemy, hailMary){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-2.png`
         }else{
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.png`
+            if(firstBoss){
+                missInRow += 10
+                player.accuracy += 10
+            }
         }
         if(hailMary){
             const hailMaryEl = document.createElement("i")
@@ -340,6 +350,10 @@ async function attack(attacker, target, currentEnemy, hailMary){
         if(attacker.link){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-4.png`
         }else{
+            if(firstBoss){
+                player.accuracy -= missInRow
+                missInRow = 0
+            }
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
         }
         if(hailMary){
@@ -375,6 +389,10 @@ async function attack(attacker, target, currentEnemy, hailMary){
         if(attacker.link){
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-3.png`
         }else{
+            if(firstBoss){
+                player.accuracy -= missInRow
+                missInRow = 0
+            }
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
         }
         if(hailMary){
@@ -457,9 +475,9 @@ shopUpgradeHealth.addEventListener("click", (e)=>{
 
 shopUpgradeStrength.addEventListener("click", (e)=>{
     e.preventDefault()
-    if(checkGold(10)){
+    if(checkGold(5)){
         player.attack += 5
-        player.gold -= 10
+        player.gold -= 5
         updatePlayerEl()
     }
 })
