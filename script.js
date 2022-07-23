@@ -127,22 +127,48 @@ function newGame(){
             maxHp: 50,
             hp: 50,
             attack: 20,
-            accuracy: 50,
-            gold: 35,
-            link: "./assets/pics/baby-bear-1.png",
+            accuracy: 30,
+            gold: 15,
+            link: "./assets/pics/baby-bear/baby-bear-1.png",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 10,
             hitRecord: enemyHitRecordEl
         },
         {
-            name: "mama-bear",
-            maxHp: 120,
-            hp: 120,
+            name: "baby-panda-bear",
+            maxHp: 100,
+            hp: 100,
             attack: 30,
             accuracy: 50,
             gold: 35,
-            link: "./assets/pics/mama-bear-1.png",
+            link: "./assets/pics/baby-panda-bear/baby-panda-bear-1.png",
+            hpEl: enemyHealthEl,
+            maxHpEl: enemyMaxHealthEl,
+            crit: 50,
+            hitRecord: enemyHitRecordEl
+        },
+        {
+            name: "baby-robot-bear",
+            maxHp: 160,
+            hp: 160,
+            attack: 35,
+            accuracy: 30,
+            gold: 35,
+            link: "./assets/pics/baby-robot-bear/baby-robot-bear-1.png",
+            hpEl: enemyHealthEl,
+            maxHpEl: enemyMaxHealthEl,
+            crit: 15,
+            hitRecord: enemyHitRecordEl
+        },
+        {
+            name: "mama-bear",
+            maxHp: 230,
+            hp: 230,
+            attack: 35,
+            accuracy: 50,
+            gold: 35,
+            link: "./assets/pics/mama-bear/mama-bear-1.png",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 15,
@@ -155,7 +181,7 @@ function newGame(){
             attack: 40,
             accuracy: 50,
             gold: 100,
-            link: "./assets/pics/papa-bear-1.png",
+            link: "./assets/pics/papa-bear/papa-bear-1.png",
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 25,
@@ -248,7 +274,7 @@ async function startGame(){
             myTurn = !myTurn
         }
         if(run){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-7.png`
             await alertScreen("You ran!")
             break
         }else if(player.hp === 0){
@@ -256,7 +282,7 @@ async function startGame(){
             dead = true
             break
         }else{
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-5.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-5.png`
             const gold = Math.max(currentEnemy.gold + (80 - Math.floor((player.hp / player.maxHp) * 100)), currentEnemy.gold)
             console.log(gold)
             await alertScreen(`
@@ -294,9 +320,9 @@ async function attack(attacker, target, currentEnemy, hailMary){
     console.log(attacker.accuracy)
     if(miss > attacker.accuracy){
         if(attacker.link){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-2.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-2.png`
         }else{
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-7.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-7.png`
             if(firstBoss){
                 missInRow += 10
                 player.accuracy += 10
@@ -327,7 +353,7 @@ async function attack(attacker, target, currentEnemy, hailMary){
         }else{
             await alertScreen(`${attacker.name} missed!`)
         }
-        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
+        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-1.png`
         return
     }
     const crit = Math.floor(Math.random() * 100)
@@ -348,13 +374,13 @@ async function attack(attacker, target, currentEnemy, hailMary){
         }
         updateHpEl(target)
         if(attacker.link){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-4.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-4.png`
         }else{
             if(firstBoss){
                 player.accuracy -= missInRow
                 missInRow = 0
             }
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-6.png`
         }
         if(hailMary){
             const hailMaryEl = document.createElement("i")
@@ -369,7 +395,7 @@ async function attack(attacker, target, currentEnemy, hailMary){
         ${attacker.name} hit ${target.name} with a critical strike of ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
         `)
-        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
+        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-1.png`
     }else{
         const min = Math.max(attacker.attack - 2, 0)
         const max = attacker.attack + 5
@@ -387,13 +413,13 @@ async function attack(attacker, target, currentEnemy, hailMary){
         }
         updateHpEl(target)
         if(attacker.link){
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-3.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-3.png`
         }else{
             if(firstBoss){
                 player.accuracy -= missInRow
                 missInRow = 0
             }
-            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-6.png`
+            enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-6.png`
         }
         if(hailMary){
             const hailMaryEl = document.createElement("i")
@@ -408,7 +434,7 @@ async function attack(attacker, target, currentEnemy, hailMary){
         ${attacker.name} hit ${target.name} for ${damage} damage!
         ${target.name} has ${target.hp} health remaining!
         `)
-        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}-1.png`
+        enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-1.png`
     }
 }
 
@@ -475,9 +501,9 @@ shopUpgradeHealth.addEventListener("click", (e)=>{
 
 shopUpgradeStrength.addEventListener("click", (e)=>{
     e.preventDefault()
-    if(checkGold(5)){
-        player.attack += 5
-        player.gold -= 5
+    if(checkGold(10)){
+        player.attack += 8
+        player.gold -= 10
         updatePlayerEl()
     }
 })
