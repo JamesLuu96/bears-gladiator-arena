@@ -140,6 +140,7 @@ function newGame(){
     enemies = [
         {
             name: "baby-peter-bear",
+            displayName: "PETER BEAR",
             maxHp: 50,
             hp: 50,
             attack: 20,
@@ -155,6 +156,7 @@ function newGame(){
         },
         {
             name: "baby-minh-hy-bear",
+            displayName: "MINH-HY BEAR",
             maxHp: 100,
             hp: 100,
             attack: 30,
@@ -170,6 +172,7 @@ function newGame(){
         },
         {
             name: "baby-ton-bear",
+            displayName: "TON BEAR",
             maxHp: 160,
             hp: 160,
             attack: 35,
@@ -185,6 +188,7 @@ function newGame(){
         },
         {
             name: "baby-thinh-bear",
+            displayName: "THINH BEAR",
             maxHp: 230,
             hp: 230,
             attack: 35,
@@ -200,6 +204,7 @@ function newGame(){
         },
         {
             name: "papa-bear",
+            displayName: "PAPA CHUONG BEAR",
             maxHp: 350,
             hp: 350,
             attack: 40,
@@ -271,7 +276,7 @@ async function startGame(){
     firstBoss = true
     for(let i = 0; i < enemies.length; i++){
         const currentEnemy = enemies[i]
-        enemyNameEl.textContent = currentEnemy.name
+        enemyNameEl.textContent = currentEnemy.displayName
         enemyPortraitEl.src = currentEnemy.link
         console.log({currentEnemy})
         updateHpEl(currentEnemy)
