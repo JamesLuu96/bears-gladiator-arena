@@ -154,13 +154,13 @@ function newGame(){
             hitRecord: enemyHitRecordEl
         },
         {
-            name: "baby-thinh-bear",
+            name: "baby-minh-hy-bear",
             maxHp: 100,
             hp: 100,
             attack: 30,
             accuracy: 50,
             gold: 35,
-            link: "./assets/pics/baby-thinh-bear/baby-thinh-bear-1.png",
+            link: "./assets/pics/baby-minh-hy-bear/baby-minh-hy-bear-1.png",
             shieldEl: enemyShieldEl,
             hpLeftEl: enemyHpLeftEl,
             hpEl: enemyHealthEl,
@@ -184,13 +184,13 @@ function newGame(){
             hitRecord: enemyHitRecordEl
         },
         {
-            name: "mama-bear",
+            name: "baby-thinh-bear",
             maxHp: 230,
             hp: 230,
             attack: 35,
             accuracy: 50,
             gold: 35,
-            link: "./assets/pics/mama-bear/mama-bear-1.png",
+            link: "./assets/pics/baby-thinh-bear/baby-thinh-bear-1.png",
             shieldEl: enemyShieldEl,
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
