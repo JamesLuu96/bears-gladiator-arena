@@ -71,6 +71,7 @@ formEl.addEventListener("submit", (e)=>{
     e.preventDefault()
     newGame()
     player.name = playerNameEl.value
+    player.displayName = playerNameEl.value
     startGame()
 })
 
@@ -86,6 +87,7 @@ function newGame(){
         accuracy: 30,
         gold: 0,
         name: "",
+        displayName: "",
         defense: 3,
         hpEl: playerHealthEl,
         maxHpEl: playerMaxHealthEl,
@@ -377,19 +379,19 @@ async function attack(attacker, target, currentEnemy, hailMary){
                 const healAmount = Math.floor(Math.random() * (maxHp - minHp + 1)) + minHp
                 attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmount)
                 updateHpEl(attacker)
-                await alertScreen(`${attacker.name} has fully rested, and healed ${healAmount} health!`)
+                await alertScreen(`${attacker.displayName} has fully rested, and healed ${healAmount} health!`)
             }else{
                 attacker.rest++
-                await alertScreen(`${attacker.name} is resting!`)
+                await alertScreen(`${attacker.displayName} is resting!`)
             }
         }else{
-            await alertScreen(`${attacker.name} missed!`)
+            await alertScreen(`${attacker.displayName} missed!`)
         }
         enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-1.png`
         return
     }
     const crit = Math.floor(Math.random() * 100)
-    console.log(`attacker: ${attacker.name}; rolled a crit of: ${crit}/100 with a crit chance of ${attacker.crit}`)
+    console.log(`attacker: ${attacker.displayName}; rolled a crit of: ${crit}/100 with a crit chance of ${attacker.crit}`)
     if(crit <= attacker.crit){
         console.log(`success!`)
         const min = Math.max((attacker.attack * 2) - 2, 0)
@@ -424,8 +426,8 @@ async function attack(attacker, target, currentEnemy, hailMary){
             attacker.hitRecord.append(critEl)
         }
         await alertScreen(`
-        ${attacker.name} hit ${target.name} with a critical strike of ${damage} damage!
-        ${target.name} has ${target.hp} health remaining!
+        ${attacker.displayName} hit ${target.displayName} with a critical strike of ${damage} damage!
+        ${target.displayName} has ${target.hp} health remaining!
         `)
         enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-1.png`
     }else{
@@ -463,8 +465,8 @@ async function attack(attacker, target, currentEnemy, hailMary){
             attacker.hitRecord.append(hitEl)
         }
         await alertScreen(`
-        ${attacker.name} hit ${target.name} for ${damage} damage!
-        ${target.name} has ${target.hp} health remaining!
+        ${attacker.displayName} hit ${target.displayName} for ${damage} damage!
+        ${target.displayName} has ${target.hp} health remaining!
         `)
         enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-1.png`
     }
