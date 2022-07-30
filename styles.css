@@ -74,9 +74,12 @@ input{
     text-align: left;
 }
 
+.hp-left{
+    display: flex;
+    transition: width 1s;
+}
+
 .health{
-    position: relative;
-    display: inline-block;
     height: 25px;
     background-color: greenyellow;
     transition: width 1s;
@@ -94,10 +97,9 @@ input{
 }
 
 .shield{
-    position: absolute;
-    left: 100%;
     background-color: gray;
     height: 25px;
+    transition: width 1s;
 }
 
 .portrait{

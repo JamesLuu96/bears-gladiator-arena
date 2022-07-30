@@ -14,10 +14,14 @@ const alertEl = document.querySelector(".alert-screen")
 const alertTextEl = document.querySelector(".alert-screen .text")
 const alertButtonEl = document.querySelector(".alert-screen .alert-button")
 const gameOptionsEl = document.querySelector(".game-options")
-const playerShieldEl = document.querySelector(".shield")
+const playerShieldEl = document.querySelector(".player .shield")
+const enemyShieldEl = document.querySelector(".enemy .shield")
 const playerHitRecordEl = document.querySelector(".player .hit-record")
 const enemyHitRecordEl = document.querySelector(".enemy .hit-record")
 const shieldGameEl = document.querySelector('.shield-game')
+const playerHpLeftEl = document.querySelector('.player .hp-left')
+const enemyHpLeftEl = document.querySelector('.enemy .hp-left')
+
 
 let missInRow = 0
 let firstBoss = true
@@ -40,15 +44,25 @@ function getHpStr(target){
 
 function updateHpEl(target){
     target.maxHpEl.textContent = getHpStr(target)
-    if(target.shield){
-        target.hpEl.style.width = `${(target.hp / (target.maxHp + target.shield)) * 100}%`
+    target.hpLeftEl.style.width = `${(target.hp / target.maxHp) * 100}%`
+    console.log(`${(target.hp / target.maxHp) * 100}%`)
+    if(target.shield > 0){
+        const maxHp = target.maxHp + target.shield
+        const missingHp = maxHp - (maxHp - (target.hp + target.shield))
+        target.shieldEl.style.width = `${Math.ceil((target.shield/missingHp) * 100)}%`
+        target.hpEl.style.width = `${100 - Math.ceil((target.shield/missingHp) * 100)}%`
     }else{
-        target.hpEl.style.width = `${(target.hp / target.maxHp) * 100}%`
+        target.hpEl.style.width = `100%`
+        target.shieldEl.style.width = `0%`
     }
-    playerShieldEl.style.width = `${(player.shield / (player.maxHp + player.shield)) * 100}%`
+
+
     if(target.shield){
-        console.log('HP %: ' + `${(target.hp / (target.maxHp + target.shield)) * 100}%`)
-        console.log('SHIELD %: ' + `${(player.shield / (player.maxHp + player.shield)) * 100}%`)
+        const maxHp = target.maxHp + target.shield
+        const missingHp = maxHp - (maxHp - (target.hp + target.shield))
+        console.log(`${target.shield} / ${missingHp} = ${target.shield / missingHp}`)
+        console.log('HP %: ' + `${100 - Math.ceil((target.shield/missingHp) * 100)}%`)
+        console.log('SHIELD %: ' + `${Math.ceil((target.shield/missingHp) * 100)}%`)
     }
 }
 
@@ -78,6 +92,8 @@ function newGame(){
         crit: 10,
         shield: 0,
         hitRecord: playerHitRecordEl,
+        shieldEl: playerShieldEl,
+        hpLeftEl: playerHpLeftEl,
         moves: [
             {
                 element: "attack", 
@@ -123,41 +139,47 @@ function newGame(){
 
     enemies = [
         {
-            name: "baby-bear",
+            name: "baby-peter-bear",
             maxHp: 50,
             hp: 50,
             attack: 20,
             accuracy: 30,
             gold: 15,
-            link: "./assets/pics/baby-bear/baby-bear-1.png",
+            link: "./assets/pics/baby-peter-bear/baby-peter-bear-1.png",
+            shieldEl: enemyShieldEl,
+            hpLeftEl: enemyHpLeftEl,
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 10,
             hitRecord: enemyHitRecordEl
         },
         {
-            name: "baby-panda-bear",
+            name: "baby-thinh-bear",
             maxHp: 100,
             hp: 100,
             attack: 30,
             accuracy: 50,
             gold: 35,
-            link: "./assets/pics/baby-panda-bear/baby-panda-bear-1.png",
+            link: "./assets/pics/baby-thinh-bear/baby-thinh-bear-1.png",
+            shieldEl: enemyShieldEl,
+            hpLeftEl: enemyHpLeftEl,
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
             crit: 50,
             hitRecord: enemyHitRecordEl
         },
         {
-            name: "baby-robot-bear",
+            name: "baby-ton-bear",
             maxHp: 160,
             hp: 160,
             attack: 35,
             accuracy: 30,
             gold: 35,
-            link: "./assets/pics/baby-robot-bear/baby-robot-bear-1.png",
+            link: "./assets/pics/baby-ton-bear/baby-ton-bear-1.png",
+            shieldEl: enemyShieldEl,
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
+            hpLeftEl: enemyHpLeftEl,
             crit: 15,
             hitRecord: enemyHitRecordEl
         },
@@ -169,8 +191,10 @@ function newGame(){
             accuracy: 50,
             gold: 35,
             link: "./assets/pics/mama-bear/mama-bear-1.png",
+            shieldEl: enemyShieldEl,
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
+            hpLeftEl: enemyHpLeftEl,
             crit: 15,
             hitRecord: enemyHitRecordEl
         },
@@ -182,8 +206,10 @@ function newGame(){
             accuracy: 50,
             gold: 100,
             link: "./assets/pics/papa-bear/papa-bear-1.png",
+            shieldEl: enemyShieldEl,
             hpEl: enemyHealthEl,
             maxHpEl: enemyMaxHealthEl,
+            hpLeftEl: enemyHpLeftEl,
             crit: 25,
             hitRecord: enemyHitRecordEl,
             rest: 1
@@ -282,6 +308,7 @@ async function startGame(){
             dead = true
             break
         }else{
+            // firstBoss = false
             enemyPortraitEl.src = `./assets/pics/${currentEnemy.name}/${currentEnemy.name}-5.png`
             const gold = Math.max(currentEnemy.gold + (80 - Math.floor((player.hp / player.maxHp) * 100)), currentEnemy.gold)
             console.log(gold)
